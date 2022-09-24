@@ -26,7 +26,7 @@ const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "https://goerli.infura.io/v
 const BSC_TESTNET_RPC_URL = process.env.BSC_TESTNET_RPC_URL || "https://data-seed-prebsc-1-s1.binance.org:8545"
 const MNEMONIC = process.env.MNEMONIC || "your mnemonic"
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "Your etherscan API key"
-
+const BSCSCAN_API_KEY = process.env.BSCSCAN_API_KEY || "Your etherscan API key"
 // optional
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "your private key"
 module.exports = {
@@ -72,10 +72,9 @@ module.exports = {
       default: 1
     }
   },
-  etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
-    apiKey: ETHERSCAN_API_KEY
+  api_keys: {
+    bscscan: BSCSCAN_API_KEY,
+    etherscan: ETHERSCAN_API_KEY
   },
 }
 
