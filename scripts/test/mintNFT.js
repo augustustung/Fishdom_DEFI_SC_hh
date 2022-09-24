@@ -10,7 +10,7 @@ async function mintNFT() {
   );
   console.log('Signer wallet public key:', signer.address);
   const contractInstance = new ethers.Contract(
-    CompliedFishdomNFT.network[97].address,
+    CompliedFishdomNFT.networks[97].address,
     CompliedFishdomNFT.abi,
     signer
   );

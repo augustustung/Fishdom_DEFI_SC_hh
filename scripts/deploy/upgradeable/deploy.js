@@ -18,7 +18,7 @@ async function main() {
     console.log(`OpenZeppelin Proxy deployed to ${proxyContract.address}\n\n`);
     const PATH = '/FishdomNFT.sol/FishdomNFT.json'
     const DATA = {
-        "network": {
+        "networks": {
             "97": {
                 "address": proxyContract.address
             }

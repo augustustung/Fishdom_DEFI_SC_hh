@@ -2,8 +2,9 @@ const { ethers } = require('hardhat');
 require('dotenv').config();
 const CompliedFishdomMarket = require('../../artifacts/contracts/FishdomMarket.sol/FishdomMarket.json');
 const CompliedFishdomNFT = require('../../artifacts/contracts/FishdomNFT.sol/FishdomNFT.json');
+const CompliedFishdomToken = require('../../artifacts/contracts/token/FishdomToken.sol/FishdomToken.json');
 
-async function listingOnMarket() {
+async function buyMarketItem() {
   const [signer] = await ethers.getSigners();
   console.log(
     'Signer wallet balance:',
@@ -22,16 +23,25 @@ async function listingOnMarket() {
     signer
   );
 
-  for (let i = 1; i <= 5; i++) {
-    let randomPrice = ethers.utils.parseEther("0.00001");
-    let approveTx = await contractNFT.approve(CompliedFishdomMarket.networks[97].address, i);
-    await approveTx.wait(1);
-    let listingOnMarketTx = await contractMarket.createMarketItem(i, randomPrice);
-    await listingOnMarketTx.wait(1);
-  }
+  const contractFishdomToken = new ethers.Contract(
+    CompliedFishdomToken.networks[97].address,
+    CompliedFishdomToken.abi,
+    signer
+  )
+
+  let approveTx = await contractFishdomToken.approve(
+    CompliedFishdomMarket.networks[97].address,
+    "10000000000000"
+  );
+  await approveTx.wait(1);
+  let buyTx = await contractMarket.buyMarketItem(1);
+  await buyTx.wait(1);
+
+  const balanceOf = await contractNFT.balanceOf(signer.address);
+  console.log(balanceOf);
 }
 
-listingOnMarket()
+buyMarketItem()
   .then(() => {
     process.exit(0);
   })

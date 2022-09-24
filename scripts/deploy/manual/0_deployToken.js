@@ -18,7 +18,7 @@ async function main() {
   );
   const PATH = '/token/FishdomToken.sol/FishdomToken.json'
   const DATA = {
-    "network": {
+    "networks": {
       "97": {
         "address": FishdomToken.address
       }

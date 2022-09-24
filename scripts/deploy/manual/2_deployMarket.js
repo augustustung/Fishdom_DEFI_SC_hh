@@ -19,7 +19,7 @@ async function main() {
 
   const PATH = '/FishdomMarket.sol/FishdomMarket.json'
   const DATA = {
-    "network": {
+    "networks": {
       "97": {
         "address": FishdomMarket.address
       }

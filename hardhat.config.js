@@ -29,6 +29,7 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "Your etherscan API k
 const BSCSCAN_API_KEY = process.env.BSCSCAN_API_KEY || "Your etherscan API key"
 // optional
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "your private key"
+const PRIVATE_KEY_2 = process.env.PRIVATE_KEY_2 || "your private key"
 module.exports = {
   defaultNetwork: "bsc_testnet",
   networks: {
