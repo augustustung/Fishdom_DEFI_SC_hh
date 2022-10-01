@@ -1,7 +1,6 @@
 const { ethers } = require('hardhat');
 const saveDeployments = require('../../../utils/saveDeployments');
 const CompliedFishdomToken = require('../../../artifacts/contracts/token/FishdomToken.sol/FishdomToken.json');
-const CompliedFishdomNFT = require('../../../artifacts/contracts/FishdomNFT.sol/FishdomNFT.json');
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -10,18 +9,18 @@ async function main() {
     ethers.utils.formatEther(await deployer.getBalance())
   );
   console.log('Deployer wallet public key:', deployer.address);
-  const Contract = await ethers.getContractFactory('FishdomMarket');
-  const FishdomMarket = await Contract.deploy(CompliedFishdomToken.networks[97].address, CompliedFishdomNFT.networks[97].address);
-  await FishdomMarket.deployed();
+  const Contract = await ethers.getContractFactory('FishdomStaking');
+  const FishdomStaking = await Contract.deploy(CompliedFishdomToken.networks[97].address);
+  await FishdomStaking.deployed();
   console.log(
-    `SC FishdomToken deployed to ${FishdomMarket.address}`
+    `SC FishdomStaking deployed to ${FishdomStaking.address}`
   );
 
-  const PATH = '/FishdomMarket.sol/FishdomMarket.json'
+  const PATH = '/FishdomStaking.sol/FishdomStaking.json'
   const DATA = {
     "networks": {
       "97": {
-        "address": FishdomMarket.address
+        "address": FishdomStaking.address
       }
     }
   }
