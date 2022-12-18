@@ -2,27 +2,35 @@ const { ethers } = require('hardhat');
 require('dotenv').config();
 const CompliedFishdomNFT = require('../../artifacts/contracts/FishdomNFT.sol/FishdomNFT.json');
 
-async function mintNFT() {
+const TO = "0x06c5b74c3A0F903a02c46F27Ca42D34810E220A2"
+
+async function transferNFT() {
   const [signer] = await ethers.getSigners();
   console.log(
     'Signer wallet balance:',
     ethers.utils.formatEther(await signer.getBalance())
   );
   console.log('Signer wallet public key:', signer.address);
-  const contractInstance = new ethers.Contract(
+
+  const contractNFT = new ethers.Contract(
     CompliedFishdomNFT.networks[97].address,
     CompliedFishdomNFT.abi,
     signer
   );
-  const txMint = await contractInstance.mint(5);
-  console.log('tx: \n', txMint);
-  txMint.wait(1);
-  const balanceOf = await contractInstance.balanceOf(signer.address);
-  console.log(balanceOf);
+
+  // let transferTx = await contractNFT.transferFrom(signer.address, TO, 16);
+  // await transferTx.wait(1);
+  // console.log(transferTx)
+  for (let i = 6; i <= 20; i++) {
+    console.log(i, await contractNFT.ownerOf(i))
+  }
+
+
   // call api after mint
+
 }
 
-mintNFT()
+transferNFT()
   .then(() => {
     process.exit(0);
   })

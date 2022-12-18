@@ -1,4 +1,4 @@
-# Useage
+# Usage
 
 ## Deploy
 

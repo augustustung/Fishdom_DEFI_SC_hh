@@ -3,6 +3,10 @@ require('dotenv').config();
 const CompliedFishdomMarket = require('../../artifacts/contracts/FishdomMarket.sol/FishdomMarket.json');
 const CompliedFishdomNFT = require('../../artifacts/contracts/FishdomNFT.sol/FishdomNFT.json');
 
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 async function listingOnMarket() {
   const [signer] = await ethers.getSigners();
   console.log(
@@ -21,14 +25,15 @@ async function listingOnMarket() {
     CompliedFishdomNFT.abi,
     signer
   );
-
-  for (let i = 1; i <= 5; i++) {
-    let randomPrice = ethers.utils.parseEther("0.00001");
+  const LAST_NFT_ID = 20; // LATEST ROI
+  for (let i = LAST_NFT_ID; i <= LAST_NFT_ID + 5; i++) {
+    let randomPrice = ethers.utils.parseEther(randomIntFromInterval(1, 100).toString());
     let approveTx = await contractNFT.approve(CompliedFishdomMarket.networks[97].address, i);
     await approveTx.wait(1);
     let listingOnMarketTx = await contractMarket.createMarketItem(i, randomPrice);
     await listingOnMarketTx.wait(1);
   }
+  // call api after mint
 }
 
 listingOnMarket()
