@@ -19,7 +19,7 @@ async function main() {
   const DATA = {
     "networks": {
       "97": {
-        "address": CompliedResolver.networks[97].address
+        "address": reNFTInstance.address
       }
     }
   }
