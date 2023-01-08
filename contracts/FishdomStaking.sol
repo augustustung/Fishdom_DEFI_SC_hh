@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "./token/IFishdomToken.sol";
 
 contract FishdomStaking {
-    uint256 constant unitToSecond = 60 * 60;
+    uint256 constant unitToSecond = 10; // MUST CHANGE TO 24 * 60 * 60 (1 day)
     uint256 public totalStaked;
 
     struct Package {
