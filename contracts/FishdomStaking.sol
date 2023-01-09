@@ -4,8 +4,8 @@ pragma solidity ^0.8.9;
 import "./token/IFishdomToken.sol";
 
 contract FishdomStaking {
-    uint256 constant unitToSecond = 10; // MUST CHANGE TO 24 * 60 * 60 (1 day)
-    uint256 public totalStaked;
+    uint256 constant dateToSecond = 10; // MUST CHANGE TO 24 * 60 * 60
+    uint256 constant yearToDate = 365;
 
     struct Package {
         uint256 apr;
@@ -21,7 +21,7 @@ contract FishdomStaking {
     struct Stake {
         uint256 stakeId;
         address owner;
-        uint256 timestamp;
+        uint32 timestamp;
         uint256 amount;
         uint256 duration;
         uint256 apr;
@@ -84,25 +84,22 @@ contract FishdomStaking {
         returns (uint256)
     {
         Stake memory ownerStaking = vault[stakingId];
-        uint256 finalApr = ownerStaking.apr;
+        uint256 _apr = ownerStaking.apr;
         if (ownerStaking.duration == 0) {
-            uint256 stakedTimeClaim = (block.timestamp -
-                ownerStaking.timestamp) / 1 days;
-            uint256 earned = (ownerStaking.amount *
-                finalApr *
-                stakedTimeClaim) /
-                100 /
-                12 /
-                30; // tiền lãi theo ngày * số ngày
+            // số ngày lãi
+            uint256 stakedTimeClaim = (uint32(block.timestamp) -
+                ownerStaking.timestamp) / (1 * dateToSecond);
+            // tiền lãi theo ngày * số ngày
+            uint256 earned = (ownerStaking.amount * _apr * stakedTimeClaim) /
+                (yearToDate * 100); // (aprPercent * time) / (1 year  * 100)
 
             return isGetAll ? ownerStaking.amount + earned : earned;
         } else {
-            return
-                ownerStaking.amount +
-                ((ownerStaking.duration * ownerStaking.amount * finalApr) /
-                    100 /
-                    30 /
-                    12); // tiền lãi theo ngày * số ngày
+            // tiền lãi theo ngày * số ngày
+            uint256 earned = (ownerStaking.amount *
+                _apr *
+                ownerStaking.duration) / (yearToDate * 100);
+            return ownerStaking.amount + earned;
         }
     }
 
@@ -117,13 +114,12 @@ contract FishdomStaking {
         require(allowance >= _amount, "FishdomStaking: Over allowance");
         FishdomToken.transferFrom(msg.sender, address(this), _amount);
 
-        totalStaked += _amount;
         uint256 newStakeId = vault.length;
         vault.push(
             Stake(
                 newStakeId,
                 msg.sender,
-                block.timestamp,
+                uint32(block.timestamp),
                 _amount,
                 finalPackage.duration,
                 finalPackage.apr
@@ -141,23 +137,23 @@ contract FishdomStaking {
     function claim(uint256 _stakingId) external {
         Stake memory staked = vault[_stakingId];
         require(msg.sender == staked.owner, "Ownable: Not owner");
-        uint256 lastTimeCheck = staked.timestamp;
         uint256 stakeDuration = staked.duration;
         if (stakeDuration != 0) {
+            uint32 lastTimeCheck = staked.timestamp;
             require(
-                block.timestamp >=
-                    (lastTimeCheck + (staked.duration * unitToSecond)),
+                uint32(block.timestamp) >=
+                    (lastTimeCheck + (stakeDuration * dateToSecond)),
                 "Staking locked"
             );
         }
         uint256 earned = _calculateEarned(_stakingId, false);
-        if (stakeDuration != 0) {
-            totalStaked -= staked.amount;
-            delete vault[_stakingId];
-        } else {
-            vault[_stakingId].timestamp = uint32(block.timestamp);
-        }
         if (earned > 0) {
+            if (stakeDuration != 0) {
+                earned += staked.amount;
+                delete vault[_stakingId];
+            } else {
+                vault[_stakingId].timestamp = uint32(block.timestamp);
+            }
             FishdomToken.transfer(msg.sender, earned);
             emit Claimed(_stakingId, msg.sender, earned);
         }
@@ -167,15 +163,10 @@ contract FishdomStaking {
         Stake memory staked = vault[_stakingId];
         require(staked.duration == 0, "Cannot unstake fixed staking package");
         require(msg.sender == staked.owner, "Ownable: Not owner");
-        // xoá staking
         uint256 earned = _calculateEarned(_stakingId, true);
-        totalStaked -= staked.amount;
         delete vault[_stakingId];
         emit Unstaked(_stakingId, msg.sender, earned);
-        if (earned > 0) {
-            FishdomToken.transfer(msg.sender, earned);
-            emit Claimed(_stakingId, msg.sender, earned);
-        }
+        FishdomToken.transfer(msg.sender, earned);
     }
 
     function getEarned(uint256 stakingId) external view returns (uint256) {

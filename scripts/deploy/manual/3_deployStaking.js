@@ -11,7 +11,8 @@ async function main() {
   console.log('Deployer wallet public key:', deployer.address);
   const Contract = await ethers.getContractFactory('FishdomStaking');
   const FishdomStaking = await Contract.deploy(CompliedFishdomToken.networks[97].address);
-  await FishdomStaking.deployed();
+  const instance = await FishdomStaking.deployed();
+  await instance.initialize();
   console.log(
     `SC FishdomStaking deployed to ${FishdomStaking.address}`
   );
