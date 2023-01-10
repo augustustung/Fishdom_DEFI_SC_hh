@@ -61,6 +61,7 @@ module.exports = {
       //   mnemonic: MNEMONIC,
       // },
       saveDeployments: true,
+      apiKey: BSCSCAN_API_KEY
     }
   },
   solidity: "0.8.9",
@@ -73,9 +74,12 @@ module.exports = {
       default: 1
     }
   },
-  api_keys: {
-    bscscan: BSCSCAN_API_KEY,
-    etherscan: ETHERSCAN_API_KEY
-  },
+  etherscan: {
+    api_keys: BSCSCAN_API_KEY
+    // {
+    // bscscan: BSCSCAN_API_KEY,
+    // etherscan: ETHERSCAN_API_KEY
+    // } 
+  }
 }
 

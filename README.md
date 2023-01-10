@@ -4,7 +4,7 @@
 
 ```sh
 $ npx hardhat compile
-$ npx hardhat run <path/to/file> --netw ork <network>
+$ npx hardhat run <path/to/file> --network <network>
 ```
 
 ## Test
