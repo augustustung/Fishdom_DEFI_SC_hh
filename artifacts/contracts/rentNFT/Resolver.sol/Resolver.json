@@ -57,7 +57,7 @@
   "linkReferences": {},
   "deployedLinkReferences": {},
   "networks": {
-    "97": {
+    "80001": {
       "address": "0xB6cF061C4563d41b99265A9af2470772eDa2124f"
     }
   }

@@ -19,7 +19,7 @@ async function main() {
   const PATH = '/rentNFT/Resolver.sol/Resolver.json'
   const DATA = {
     "networks": {
-      "97": {
+      "80001": {
         "address": Resolver.address
       }
     }

@@ -18,7 +18,7 @@ async function main() {
   const PATH = '/rentNFT/ReNFT.sol/ReNFT.json'
   const DATA = {
     "networks": {
-      "97": {
+      "80001": {
         "address": reNFTInstance.address
       }
     }

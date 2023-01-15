@@ -521,7 +521,7 @@
   "linkReferences": {},
   "deployedLinkReferences": {},
   "networks": {
-    "97": {
+    "80001": {
       "address": "0x3010dcfb6A43C3fDe8280a4C005C5F96574e7261"
     }
   }

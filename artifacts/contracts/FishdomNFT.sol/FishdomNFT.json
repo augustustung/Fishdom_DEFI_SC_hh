@@ -440,9 +440,8 @@
   "linkReferences": {},
   "deployedLinkReferences": {},
   "networks": {
-    "97": {
-      "address": "0xe157D69d19DBD866d7B4224AEd24105f888324a1",
-      "nft": "0xB573124Fb65eC205894dE6Bbe8bd2E2822A5559B"
+    "80001": {
+      "address": "0xBDd290c65d24eEA466e8206b67BFd9c016Adc3D3"
     }
   }
 }

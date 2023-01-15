@@ -19,7 +19,7 @@ async function main() {
     const PATH = '/FishdomNFT.sol/FishdomNFT.json'
     const DATA = {
         "networks": {
-            "97": {
+            "80001": {
                 "address": proxyContract.address
             }
         }

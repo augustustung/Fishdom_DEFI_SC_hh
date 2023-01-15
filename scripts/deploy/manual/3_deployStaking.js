@@ -10,7 +10,7 @@ async function main() {
   );
   console.log('Deployer wallet public key:', deployer.address);
   const Contract = await ethers.getContractFactory('FishdomStaking');
-  const FishdomStaking = await Contract.deploy(CompliedFishdomToken.networks[97].address);
+  const FishdomStaking = await Contract.deploy(CompliedFishdomToken.networks["80001"].address);
   const instance = await FishdomStaking.deployed();
   await instance.initialize();
   console.log(
@@ -20,7 +20,7 @@ async function main() {
   const PATH = '/FishdomStaking.sol/FishdomStaking.json'
   const DATA = {
     "networks": {
-      "97": {
+      "80001": {
         "address": FishdomStaking.address
       }
     }
